@@ -1,0 +1,13 @@
+{
+    "name": "Cold",
+    "landBiomes": [
+        "taiga",
+        "mountains"
+    ],
+    "seaBiomes": [
+        "ocean"
+    ],
+    "shoreBiomes": [
+        "beach"
+    ]
+}

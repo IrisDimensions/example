@@ -1,0 +1,30 @@
+{
+    "name": "Desert",
+    "derivative": "DESERT",
+    "layers": [
+        {
+            "palette": [
+                {
+                    "block": "sand"
+                }
+            ]
+        },
+        {
+            "palette": [
+
+                {
+                    "block": "sandstone"
+                }
+            ],
+            "maxHeight": 3,
+            "minHeight": 2
+        }
+    ],
+    "generators": [
+        {
+            "generator": "vanilla",
+            "max": 5,
+            "min": 3
+        }
+    ]
+}

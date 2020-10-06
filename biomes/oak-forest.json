@@ -1,0 +1,46 @@
+{
+    "name": "Oak Forest",
+    "derivative": "FOREST",
+    "layers": [
+        {
+            "palette": [
+                {
+                    "block": "grass_block"
+                }
+            ]
+        },
+        {
+            "palette": [
+
+                {
+                    "block": "dirt"
+                }
+            ],
+            "maxHeight": 3,
+            "minHeight": 2
+        }
+    ],
+    "objects": [
+        {
+            "place": [
+                "tree/oak/1",
+                "tree/oak/2",
+                "tree/oak/3",
+                "tree/oak/4",
+                "tree/oak/5"
+            ],
+            "translate": {
+                "y": 1
+            },
+            "chance": 1,
+            "density": 7
+        }
+    ],
+    "generators": [
+        {
+            "generator": "vanilla",
+            "max": 7,
+            "min": 2
+        }
+    ]
+}

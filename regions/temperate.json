@@ -1,0 +1,15 @@
+{
+    "name": "Temperate",
+    "landBiomes": [
+        "plains",
+        "oak-forest",
+        "birch-forest",
+        "swamp-forest"
+    ],
+    "seaBiomes": [
+        "ocean"
+    ],
+    "shoreBiomes": [
+        "beach"
+    ]
+}

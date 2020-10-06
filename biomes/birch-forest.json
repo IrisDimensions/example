@@ -1,0 +1,47 @@
+{
+    "name": "Birch Forest",
+    "derivative": "BIRCH_FOREST",
+    "rarity": 2,
+    "layers": [
+        {
+            "palette": [
+                {
+                    "block": "grass_block"
+                }
+            ]
+        },
+        {
+            "palette": [
+
+                {
+                    "block": "dirt"
+                }
+            ],
+            "maxHeight": 3,
+            "minHeight": 2
+        }
+    ],
+    "objects": [
+        {
+            "place": [
+                "tree/birch/1",
+                "tree/birch/2",
+                "tree/birch/3",
+                "tree/birch/4",
+                "tree/birch/5"
+            ],
+            "translate": {
+                "y": 1
+            },
+            "chance": 1,
+            "density": 5
+        }
+    ],
+    "generators": [
+        {
+            "generator": "vanilla",
+            "max": 7,
+            "min": 2
+        }
+    ]
+}

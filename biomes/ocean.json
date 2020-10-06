@@ -1,0 +1,30 @@
+{
+    "name": "Ocean",
+    "derivative": "OCEAN",
+    "layers": [
+        {
+            "palette": [
+                {
+                    "block": "sand"
+                }
+            ]
+        },
+        {
+            "palette": [
+
+                {
+                    "block": "dirt"
+                }
+            ],
+            "maxHeight": 3,
+            "minHeight": 2
+        }
+    ],
+    "generators": [
+        {
+            "generator": "vanilla",
+            "max": -8,
+            "min": -22
+        }
+    ]
+}

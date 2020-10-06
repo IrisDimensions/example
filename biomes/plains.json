@@ -1,0 +1,30 @@
+{
+    "name": "Plains",
+    "derivative": "PLAINS",
+    "layers": [
+        {
+            "palette": [
+                {
+                    "block": "grass_block"
+                }
+            ]
+        },
+        {
+            "palette": [
+
+                {
+                    "block": "dirt"
+                }
+            ],
+            "maxHeight": 3,
+            "minHeight": 2
+        }
+    ],
+    "generators": [
+        {
+            "generator": "vanilla",
+            "max": 5,
+            "min": 2
+        }
+    ]
+}
