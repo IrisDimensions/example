@@ -1,0 +1,115 @@
+name: Publish Unmarked Commit as Beta Pack
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: example-pack-publication
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: beta
+  RELEASE_TITLE: Example Beta
+  ASSET_PATH: example.zip
+
+jobs:
+  publish:
+    name: Archive unmarked master build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out triggering commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Detect stable release marker
+        id: release_marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          commit_message="$(git log -1 --format=%B HEAD)"
+
+          if [[ "$commit_message" == *"V+"* ]]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "This exact commit contains V+; beta publication is skipped."
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and verify master archive
+        if: steps.release_marker.outputs.found != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          remote_master_sha="$(git ls-remote origin refs/heads/master | cut -f1)"
+          archive_sha="$(git rev-parse HEAD)"
+
+          if [[ "$archive_sha" != "$remote_master_sha" ]]; then
+            echo "Checked out commit $archive_sha does not match master head $remote_master_sha" >&2
+            exit 1
+          fi
+
+          echo "ARCHIVE_SHA=$archive_sha" >> "$GITHUB_ENV"
+          git archive --format=zip --output="$ASSET_PATH" HEAD
+          unzip -t "$ASSET_PATH"
+          unzip -Z1 "$ASSET_PATH" | grep -Fx "dimensions/example.json"
+
+      - name: Publish beta release
+        if: steps.release_marker.outputs.found != 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          release_notes="Automated beta archive from master commit ${ARCHIVE_SHA}."
+
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
+            gh api \
+              --method PATCH \
+              "repos/${GITHUB_REPOSITORY}/git/refs/tags/${RELEASE_TAG}" \
+              -f sha="$ARCHIVE_SHA" \
+              -F force=true \
+              >/dev/null
+          else
+            gh api \
+              --method POST \
+              "repos/${GITHUB_REPOSITORY}/git/refs" \
+              -f ref="refs/tags/${RELEASE_TAG}" \
+              -f sha="$ARCHIVE_SHA" \
+              >/dev/null
+          fi
+
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "$ASSET_PATH" \
+              --repo "$GITHUB_REPOSITORY" \
+              --clobber
+            gh release edit "$RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "$RELEASE_TITLE" \
+              --notes "$release_notes" \
+              --draft=false \
+              --prerelease \
+              --latest=false
+          else
+            gh release create "$RELEASE_TAG" "$ASSET_PATH" \
+              --repo "$GITHUB_REPOSITORY" \
+              --verify-tag \
+              --title "$RELEASE_TITLE" \
+              --notes "$release_notes" \
+              --prerelease \
+              --latest=false
+          fi
+
+      - name: Report stable release handoff
+        if: steps.release_marker.outputs.found == 'true'
+        shell: bash
+        run: |
+          echo "Stable release workflow owns commit ${GITHUB_SHA}." >> "$GITHUB_STEP_SUMMARY"

@@ -1,15 +1,18 @@
 {
-    "postProcessing": false,
-    "environment": "NORMAL",
-    "regions": [
-        "hot",
-        "temperate",
-        "temperate",
-        "cold"
-    ],
-    "caves": false,
-    "name": "Example",
-    "fluidHeight": 63,
-    "carving": false,
-    "version": 1
+  "name": "Example",
+  "version": 2,
+  "mode": {
+    "type": "OVERWORLD"
+  },
+  "regions": [
+    "main"
+  ],
+  "environment": "NORMAL",
+  "dimensionHeight": {
+    "min": -64,
+    "max": 320
+  },
+  "logicalHeight": 384,
+  "fluidHeight": 63,
+  "landChance": 1
 }

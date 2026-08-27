@@ -1,7 +1,7 @@
 {
-  "name": "Plains",
-  "derivative": "minecraft:plains",
-  "vanillaDerivative": "minecraft:plains",
+  "name": "Rolling Hills",
+  "derivative": "minecraft:windswept_hills",
+  "vanillaDerivative": "minecraft:windswept_hills",
   "layers": [
     {
       "palette": [
@@ -23,8 +23,8 @@
   "generators": [
     {
       "generator": "plain",
-      "min": 2,
-      "max": 7
+      "min": 12,
+      "max": 28
     }
   ]
 }

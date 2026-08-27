@@ -1,4 +1,6 @@
+.DS_Store
+*.code-workspace
 
 _docs/
 
-nether.code-workspace
+.iris/schema/
